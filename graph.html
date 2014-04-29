@@ -103,7 +103,7 @@ function callback(err, json) {
   ];
 
   x.domain(d3.extent(data[0].values, function(d) { return d.time; }));
-  y.domain([minValue, maxValue]);
+  y.domain([minValue - 5, maxValue + 5]);
 
   svg.append('g')
       .attr('class', 'x axis')
