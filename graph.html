@@ -28,6 +28,19 @@ body {
 <script src="http://d3js.org/d3.v3.js"></script>
 <script>
 
+// Get query string parameters (function from StackOverflow)
+var qs = (function(a) {
+    if (a == "") return {};
+    var b = {};
+    for (var i = 0; i < a.length; ++i)
+    {
+        var p=a[i].split('=');
+        if (p.length != 2) continue;
+        b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+    }
+    return b;
+})(window.location.search.substr(1).split('&'));
+
 var margin = {top: 20, right: 80, bottom: 30, left: 50},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
@@ -134,15 +147,17 @@ function callback(err, json) {
       .attr('dy', '.35em')
       .text(function(d) { return d.name; });
 
+  var title = qs['title'] || 'Temperature & Humidity';
   // Title
   svg.append('text')
       .attr('x', (width / 2))
       .attr('y', 0)
       .attr('text-anchor', 'middle')
       .style('font-size', '16px')
-      .text('The Houseboat');
+      .text(title);
 }
 
-d3.json('http://dweet.io/get/dweets/for/houseboat', callback);
+var dweetId = qs['id'] || 'houseboat';
+d3.json('http://dweet.io/get/dweets/for/' + dweetId, callback);
 
 </script>
