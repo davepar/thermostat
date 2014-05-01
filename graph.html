@@ -17,6 +17,14 @@ body {
   display: none;
 }
 
+.grid .tick {
+  stroke: lightgrey;
+  opacity: 0.7;
+}
+.grid path {
+  stroke-width: 0;
+}
+
 .line {
   fill: none;
   stroke: steelblue;
@@ -61,7 +69,8 @@ var xAxis = d3.svg.axis()
 
 var yAxis = d3.svg.axis()
     .scale(y)
-    .orient('left');
+    .orient('left')
+    .ticks(5);
 
 var line = d3.svg.line()
     .interpolate('basis')
@@ -118,6 +127,7 @@ function callback(err, json) {
   x.domain(d3.extent(data[0].values, function(d) { return d.time; }));
   y.domain([minValue - 5, maxValue + 5]);
 
+  // Draw the axes
   svg.append('g')
       .attr('class', 'x axis')
       .attr('transform', 'translate(0,' + height + ')')
@@ -127,6 +137,15 @@ function callback(err, json) {
       .attr('class', 'y axis')
       .call(yAxis)
 
+  // Draw the grid
+  svg.append('g')
+      .attr('class', 'grid')
+      .call(yAxis
+          .tickSize(-width, 0, 0)
+          .tickFormat('')
+      )
+
+  // Draw the data
   var series = svg.selectAll('.series')
       .data(data)
       .enter().append('g')
