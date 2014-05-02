@@ -176,7 +176,7 @@ function callback(err, json) {
       .text(title);
 }
 
-var dweetId = qs['id'] || 'houseboat';
+var dweetId = qs['id'] || 'weatherstation';
 d3.json('http://dweet.io/get/dweets/for/' + dweetId, callback);
 
 </script>
