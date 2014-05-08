@@ -49,6 +49,8 @@ var qs = (function(a) {
     return b;
 })(window.location.search.substr(1).split('&'));
 
+var dweetId = qs['id'] || 'weatherstation';
+
 var margin = {top: 20, right: 80, bottom: 30, left: 50},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
@@ -84,6 +86,18 @@ var svg = d3.select('body').append('svg')
     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
 function callback(err, json) {
+  // Catch 404 error
+  var title = 'Error: "' + json.because + '" for ID: ' + dweetId;
+  if (json.with === 404) {
+    svg.append('text')
+        .attr('x', (width / 2))
+        .attr('y', 0)
+        .attr('text-anchor', 'middle')
+        .style('font-size', '16px')
+        .text(title);
+    return;
+  }
+
   var labels = {
     temp: 'Temperature (F)',
     hum: 'Humidity (%)'
@@ -176,7 +190,6 @@ function callback(err, json) {
       .text(title);
 }
 
-var dweetId = qs['id'] || 'weatherstation';
 d3.json('http://dweet.io/get/dweets/for/' + dweetId, callback);
 
 </script>
