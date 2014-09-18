@@ -111,7 +111,7 @@ function callback(err, json) {
   var maxValue = 0;
 
   json.with.forEach(function(d) {
-    if ('temp' in d.content and 'hum' in d.content) {
+    if ('temp' in d.content && 'hum' in d.content) {
       var time = parseTime(d.created);
       var temp = +d.content.temp;
       var hum = +d.content.hum;
