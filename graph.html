@@ -111,20 +111,22 @@ function callback(err, json) {
   var maxValue = 0;
 
   json.with.forEach(function(d) {
-    var time = parseTime(d.created);
-    var temp = +d.content.temp;
-    var hum = +d.content.hum;
+    if (d.content) {
+      var time = parseTime(d.created);
+      var temp = +d.content.temp;
+      var hum = +d.content.hum;
 
-    temps.push({
-      time: time,
-      value: temp
-    });
-    hums.push({
-      time: time,
-      value: hum
-    })
-    minValue = Math.min(minValue, temp, hum);
-    maxValue = Math.max(maxValue, temp, hum);
+      temps.push({
+        time: time,
+        value: temp
+      });
+      hums.push({
+        time: time,
+        value: hum
+      })
+      minValue = Math.min(minValue, temp, hum);
+      maxValue = Math.max(maxValue, temp, hum);      
+    }
   });
 
   var data = [
